@@ -3,8 +3,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class Q1Test {
+public class Main1229Test {
     public int mid(int x, int y, int z){
+        //   3개의 변수 합   -   최댓값                 - 최솟값                = 중간값
         return (x+y+z)-Math.max(Math.max(x,y),z)-Math.min(Math.min(x,y),z);
     }
 
