@@ -20,8 +20,8 @@ public class Main1229_2Test {
     @Test
     public void tf1() {
         //도저히 배열을 어떻게 검사해야하는지 모르겠다... 그래서 boolean을 이용하기로 함.
-        int[] arr1 = {1,2,3};
-        int[] arr2 = {1,2,3};
+        int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {1,2,3,4,5};
         // boolean으로 미리 두 객체가 true인지 false인지 해놓는다.
         Boolean answer = Arrays.equals(arr1,arr2);
         //boolean과 method 값이 일치하는지 확인한다.
@@ -30,9 +30,87 @@ public class Main1229_2Test {
 
     @Test
     public void tf2() {
-        int[] arr1 = {1,2,4};
-        int[] arr2 = {1,2,3};
+        int[] arr1 = {1,2,4,5,6};
+        int[] arr2 = {1,2,3,5,6};
         Boolean answer = Arrays.equals(arr1,arr2);
         assertTrue(answer==false);
+    }
+
+    @Test
+    public void tf3() {
+        int[] arr1 = {1,3,2,5,6};
+        int[] arr2 = {1,2,3,5,6};
+        // arr1[1]과 arr2[1]의 값이 일치하지않는다.(각 배열 위치의 값까지 같아야한다.)
+        Boolean answer = Arrays.equals(arr1,arr2);
+        assertTrue(answer==false);
+    }
+
+
+    public int same(int[] arr1, int[] arr2) {
+        // 그럼 arr1,arr2의 길이로 설정하면 오류나기때문에 각 배열의 최댓값을 찾아내야함.
+        int max1 = arr1[0];
+        int max2 = arr2[0];
+
+        for(int i=0; i<arr1.length; i++){
+            if(max1<arr1[i]){
+                max1 = arr1[i];
+            }
+        }
+        for(int i=0; i<arr2.length; i++){
+            if(max2<arr2[i]){
+                max2 = arr2[i];
+            }
+        }
+
+        //arr1 인덱스 값의 최댓값이 예를 들어 5라면, count1[5]까지 있어야하므로 길이는 그것보다 1 크게 설정해야함.
+        int[] count1 = new int[max1+1];
+        int[] count2 = new int[max2+1];
+
+        // 카운팅 정렬을 한다.(여기에서 for를 굳이 2번 쓴 이유는 혹시라도 두 배열이 길이를 다르게 입력할 수 있기 때문이다.
+        for(int i=0; i<arr1.length; i++){
+            count1[arr1[i]]++;
+        }
+        for(int i=0; i<arr2.length; i++){
+            count2[arr2[i]]++;
+        }
+
+        int sum = 0;
+        //arr1과 arr2의 index 최고번호가 작은쪽으로 해야한다.(큰쪽으로하면 작은쪽에서 index가 없기 때문에 에러가 날거라고 예상한다)
+        for(int i=0; i<Math.min(count1.length, count2.length); i++){
+            if(count1[i]!=0 && count2[i]!=0){
+                // 두 index의 값이 0이 아니라면 겹치는 부분이 있는거고,
+                // 만약 중복이 허용된다고해도 Math.min을 통해 작은 수를 더하면 정확하게 겹치는 수량만큼만 계산 될 것이다.
+                sum = sum + Math.min(count1[i], count2[i]);
+            }
+        }
+        return sum;
+    }
+
+    @Test
+    public void same1() {
+        int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {1,2,3,4,5};
+        assertTrue(same(arr1, arr2)==5);
+    }
+
+    @Test
+    public void same2() {
+        int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {1,2,3,4,6};
+        assertTrue(same(arr1, arr2)==4);
+    }
+
+    @Test
+    public void same3() {
+        int[] arr1 = {1,72,3,44,5};
+        int[] arr2 = {1,2,33,4,65};
+        assertTrue(same(arr1, arr2)==1);
+    }
+
+    @Test
+    public void same4() {
+        int[] arr1 = {1,1,1,2,1};
+        int[] arr2 = {1,1,1,2,2};
+        assertTrue(same(arr1, arr2)==4);
     }
 }
