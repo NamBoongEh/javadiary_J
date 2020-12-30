@@ -13,5 +13,7 @@ public class Main1229 {
         Main1229Test test = new Main1229Test();
         //반환 값을 출력해주자.
         System.out.println(test.mid(x, y, z));
+
+        scan.close();
     }
 }

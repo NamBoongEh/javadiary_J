@@ -113,4 +113,46 @@ public class Main1229_2Test {
         int[] arr2 = {1,1,1,2,2};
         assertTrue(same(arr1, arr2)==4);
     }
+
+    public String baseball(int[] arr1, int[] arr2) {
+        int S = 0;
+        int B = 0;
+
+        for(int i=0; i<arr1.length; i++){
+            for(int j=0; j<arr2.length; j++){
+                // S의 조건(위치, 값 모두 같아야함)
+                if(arr1[i]==arr2[j] && i==j){
+                    S++;
+                }
+                // else로 하면 모든 조건이 전부 B로 들어간다. 그렇기에 else if로 조건을 걸어야한다.
+                else if(arr1[i]==arr2[j] && i!=j){
+                    B++;
+                }
+            }
+        }
+
+        String answer = S+"S"+B+"B";
+        return answer;
+    }
+
+    @Test
+    public void baseball1() {
+        int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {5,4,3,2,1};
+        assertTrue(baseball(arr1, arr2).equals("1S4B"));
+    }
+
+    @Test
+    public void baseball2() {
+        int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {1,2,3,7,8};
+        assertTrue(baseball(arr1, arr2).equals("3S0B"));
+    }
+
+    @Test
+    public void baseball3() {
+        int[] arr1 = {1,3,5,7,9};
+        int[] arr2 = {2,4,6,8,10};
+        assertTrue(baseball(arr1, arr2).equals("0S0B"));
+    }
 }

@@ -20,8 +20,10 @@ public class Main1229_2 {
         // 객체를 생성한다.
         Main1229_2Test test = new Main1229_2Test();
         //반환 값을 출력해주자.
-        System.out.println("Q1. 정답은 " + test.tf(arr1, arr2));
-        System.out.println("Q2. 정답은 " + test.same(arr1, arr2));
+        System.out.println("Q1. 정답은 \"" + test.tf(arr1, arr2) + "\"입니다.");
+        System.out.println("Q2. 정답은 " + test.same(arr1, arr2) + " 입니다.");
+        System.out.println("Q3. 야구게임 결과는 " + test.baseball(arr1, arr2) + " 입니다.");
 
+        scan.close();
     }
 }
