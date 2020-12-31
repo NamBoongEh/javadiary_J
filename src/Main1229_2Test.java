@@ -7,14 +7,19 @@ import static org.junit.Assert.*;
 public class Main1229_2Test {
 
     public String tf(int[] arr1, int[] arr2) {
-        //equals 이용하여 if문(같을 시) 만족시 같습니다 출력
-        if(Arrays.equals(arr1, arr2)){
-            return "같습니다.";
+        //기본 타입은 같다로 설정(만약 arr1과 arr2 1:1 대응 시 하나라도 다르다면 answer 변환)
+        String answer = "같습니다.";
+
+        //equals 이용 대신 1:1 대응으로 변환
+        for(int i=0; i<arr1.length; i++){
+            if(arr1[i]!=arr2[i]){
+                answer = "다릅니다.";
+                //하나라도 다르다면 더이상 확인 할 필요가 없다. 작업시간 줄이는 용도
+                break;
+            }
         }
-        //그 외는 다른 경우 뿐이기에 다릅니다 출력
-        else {
-            return "다릅니다.";
-        }
+
+        return answer;
     }
 
     @Test
