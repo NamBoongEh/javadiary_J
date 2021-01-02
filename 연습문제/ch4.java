@@ -134,3 +134,69 @@ class Exercise4_11 {
         }
     } // end of main
 } // end of class
+
+class Exercise4_12 {
+    public static void main(String[] args) {
+        for (int i = 1 ; i <= 9 ; i++) {
+            for (int j = 1; j <= 3; j++) {
+                int x = j+1+(i-1)/3*3;
+                int y = i%3==0? 3 : i%3 ;
+                if(x > 9) //
+                    break;
+                System.out.print(x+"*"+y+"="+x*y+"\t");
+            }
+            System.out.println();
+            if(i%3==0) System.out.println();
+        }
+    }
+}
+
+class Exercise4_13{
+    public static void main(String[] args)    {
+        String value = "12o34";
+        char ch = ' ';
+        boolean isNumber = true;
+// charAt(int i) 반복문과 를 이용해서 문자열의 문자를
+// 하나씩 읽어서 검사한다.
+        for(int i=0; i < value.length() ;i++) {
+            if(!('0'<=value.charAt(i) && value.charAt(i)<='9')){
+                isNumber = false;
+            }
+        }
+        if (isNumber) {
+            System.out.println(value+"는 숫자입니다.");
+        } else {
+            System.out.println(value+"는 숫자가 아닙니다.");
+        }
+    } // end of main
+} // end of class
+
+class Exercise4_14
+{
+    public static void main(String[] args)
+    {
+// 1~100 answer . 사이의 임의의 값을 얻어서 에 저장한다
+        int answer = (int)(Math.random()*100+1);
+        int input = 0; // 사용자입력을 저장할 공간
+        int count = 0; // 시도횟수를 세기위한 변수
+// Scanner 화면으로 부터 사용자입력을 받기 위해서 클래스 사용
+        java.util.Scanner s = new java.util.Scanner(System.in);
+        do {
+            count++;
+            System.out.print("1과 100 사이의 값을 입력하세요 :");
+            input = s.nextInt(); // input . 입력받은 값을 변수 에 저장한다
+            if(input==answer){
+                System.out.println(count);
+                break;
+            }
+            else{
+                if(input>answer){
+                    System.out.println("더 작은 수를 입력하세요.");
+                }
+                else{
+                    System.out.println("더 큰 수를 입력하세요.");
+                }
+            }
+        } while(true); // 무한반복문
+    } // end of main
+} // end of class HighLow
