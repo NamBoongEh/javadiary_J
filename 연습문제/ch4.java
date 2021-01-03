@@ -200,3 +200,23 @@ class Exercise4_14
         } while(true); // 무한반복문
     } // end of main
 } // end of class HighLow
+
+class Exercise4_15 {
+    public static void main(String[] args)    {
+        int number = 12321;
+        int tmp = number;
+        int result =0; // number 변수 를 거꾸로 변환해서 담을 변수
+        while(tmp !=0) {
+            String answer = "";
+            for(int i=String.valueOf(number).length()-1; i>=0; i--){
+                answer = answer + String.valueOf(number).charAt(i);
+            }
+            result = Integer.parseInt(answer);
+            break;
+        }
+        if(number == result)
+            System.out.println( number + " 는 회문수 입니다.");
+else
+        System.out.println( number + " 는 회문수가 아닙니다.");
+    } // main
+}
