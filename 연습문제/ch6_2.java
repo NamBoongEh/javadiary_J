@@ -76,29 +76,52 @@ class Student22{
 
 class Exercise6_52 {
     public static void main(String args[]) {
-        Student33 s = new Student33("홍길동 ",1,1,100,60,76);
+        //new int[]로 새로운 배열로 같은 int끼리 묶었다
+        Student33 s = new Student33("홍길동", new int[]{1, 1, 100, 60, 76});
         System.out.println(s.info());
     }
 }
 class Student33 {
     // rough한 코딩 이제 조금씩 다듬어보자.
-    String iv1;
-    int iv2;
-    int iv3;
-    int iv4;
-    int iv5;
-    int iv6;
+//    String iv1;
+//    int iv2;
+//    int iv3;
+//    int iv4;
+//    int iv5;
+//    int iv6;
 
-    Student33(String iv1, int iv2, int iv3, int iv4, int iv5, int iv6){
-        this.iv1 = iv1;
-        this.iv2 = iv2;
-        this.iv3 = iv3;
-        this.iv4 = iv4;
-        this.iv5 = iv5;
-        this.iv6 = iv6;
+    String name;
+    int[] iv = new int[5];
+
+//    Student33(String iv1, int iv2, int iv3, int iv4, int iv5, int iv6){
+//        this.iv1 = iv1;
+//        this.iv2 = iv2;
+//        this.iv3 = iv3;
+//        this.iv4 = iv4;
+//        this.iv5 = iv5;
+//        this.iv6 = iv6;
+        Student33(String name, int[] iv){
+            this.name = name;
+            for(int i=0; i<iv.length; i++){
+                this.iv[i] = iv[i];
+            }
     }
 
     String info(){
-        return iv1+","+iv2+","+iv3+","+iv4+","+iv5+","+iv6;
+//        return iv1+","+iv2+","+iv3+","+iv4+","+iv5+","+iv6;
+             //지역변수 answer를 이름을 기본값으로 받고
+            String answer = name;
+            //이것은 합과 평균을 구하기위한 기본값이다.
+            int sum = 0;
+            // 남은 iv를 toString으로 받으며 중간에 ,를 넣어서 answer에 이어붙인다.
+            for(int i=0; i<iv.length; i++){
+                answer = answer + "," + Integer.toString(iv[i]);
+                //중복을 막기위해 2부터는 합과 평균치를 구하는 값으로 if문으로 나눴다.
+                if(i>=2){
+                    sum = sum + iv[i];
+                }
+            }
+
+            return answer+","+Integer.toString(sum)+","+((Math.round(sum/3.0*10.0))/10.0);
     }
 }
