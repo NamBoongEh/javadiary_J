@@ -125,3 +125,36 @@ class Student33 {
             return answer+","+Integer.toString(sum)+","+((Math.round(sum/3.0*10.0))/10.0);
     }
 }
+
+class Exercise6_62 {
+    // (x,y) (x1,y1) . 두 점 와 간의 거리를 구한다
+    static double getDistance(int x, int y, int x1, int y1) {
+        return Math.sqrt(Math.pow(x1-x,2)+Math.pow(y1-y,2));
+    }
+    public static void main(String args[]) {
+        System.out.println(getDistance(1,1,2,2));
+    }
+}
+
+class MyPoint2 {
+    int x;
+    int y;
+    MyPoint2(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    //메서드 반환타입 : double , 메서드명 : getDistance, 매개변수ㅇ : int,int
+    double getDistance(int x, int y){
+        // p와 2.2의 간의 거리이다.
+        // p는 MyPoint2의 객체이다.
+        // 객체의 iv를 가져와야하니 static 메서드는 안된다.
+        // iv 가져오니 this.iv를 써도 된다.
+        return Math.sqrt(Math.pow(this.x-x,2)+Math.pow(this.y-y,2));
+    }
+}
+class Exercise6_72 {
+    public static void main(String args[]) {
+        MyPoint2 p = new MyPoint2(1,1);
+        System.out.println(p.getDistance(2,2));
+    }
+}
