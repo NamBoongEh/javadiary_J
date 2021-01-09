@@ -104,8 +104,46 @@ class Tv extends Product {
         return "Tv";
     }
 }
-class Exercise7_5 {
-    public static void main(String[] args) {
-        Tv t = new Tv();
+
+class MyTv22 {
+    // 아무곳에서도 못건들이게 이 클래스에서만 쓸 수 있는 private으로 바꾼다.
+    private boolean isPowerOn;
+    private int channel;
+    private int volume;
+    final int MAX_VOLUME = 100;
+    final int MIN_VOLUME = 0;
+    final int MAX_CHANNEL = 100;
+    final int MIN_CHANNEL = 1;
+
+    // 셋팅을 해야한다. 메서드는 어디에서든 접근할 수 있도록하라고했으니 public 제일 높은걸로 해준다.
+    public int setChannel(int channel){
+        if(channel>=MIN_CHANNEL && channel<=MAX_CHANNEL) {
+            this.channel = channel;
+        }
+        return this.channel;
+    }
+    public int setVolume(int volume){
+        if(volume>=MIN_VOLUME && volume<=MAX_VOLUME) {
+            this.volume = volume;
+        }
+        return this.volume;
+    }
+
+    // 받은 체널값과 볼륨값을 되돌려준다.
+    public int getChannel(){
+        return channel;
+    }
+    public int getVolume(){
+        return volume;
+    }
+
+}
+class Exercise7_10 {
+    public static void main(String args[]) {
+        MyTv22 t = new MyTv22();
+        t.setChannel(10);
+        System.out.println("CH:"+t.getChannel());
+        t.setVolume(20);
+        System.out.println("VOL:"+t.getVolume());
     }
 }
