@@ -226,31 +226,29 @@ public class MainTestTest {
                 answer = "STRAIGHT";
             }
         }
-
-
         return answer;
     }
 
     @Test
-    public void straightTest1(){
+    public void straightTest1() {
         Card[] cArr = {
-                new Card(1, 1),
-                new Card(1, 2),
-                new Card(1, 3),
-                new Card(1, 4),
-                new Card(1, 5)
+                new Card(1,1),
+                new Card(1,2),
+                new Card(1,3),
+                new Card(2,4),
+                new Card(2,5),
         };
         assertTrue(rankCheck(cArr).equals("STRAIGHT"));
     }
 
     @Test
-    public void straightTest2(){
+    public void straightTest2() {
         Card[] cArr = {
-                new Card(1, 5),
-                new Card(1, 6),
-                new Card(1, 7),
-                new Card(1, 8),
-                new Card(1, 9)
+                new Card(1,5),
+                new Card(1,6),
+                new Card(1,4),
+                new Card(2,7),
+                new Card(2,8),
         };
         assertTrue(rankCheck(cArr).equals("STRAIGHT"));
     }
