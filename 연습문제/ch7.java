@@ -110,14 +110,19 @@ class MyTv22 {
     private boolean isPowerOn;
     private int channel;
     private int volume;
+    // 이전 채널 보관소
+    private int PrevChannel;
     final int MAX_VOLUME = 100;
     final int MIN_VOLUME = 0;
     final int MAX_CHANNEL = 100;
     final int MIN_CHANNEL = 1;
 
+
+
     // 셋팅을 해야한다. 메서드는 어디에서든 접근할 수 있도록하라고했으니 public 제일 높은걸로 해준다.
     public int setChannel(int channel){
         if(channel>=MIN_CHANNEL && channel<=MAX_CHANNEL) {
+            PrevChannel = this.channel;
             this.channel = channel;
         }
         return this.channel;
@@ -127,6 +132,10 @@ class MyTv22 {
             this.volume = volume;
         }
         return this.volume;
+    }
+
+    void gotoPrevChannel(){
+        setChannel(PrevChannel);
     }
 
     // 받은 체널값과 볼륨값을 되돌려준다.
@@ -145,5 +154,59 @@ class Exercise7_10 {
         System.out.println("CH:"+t.getChannel());
         t.setVolume(20);
         System.out.println("VOL:"+t.getVolume());
+
+        t.setChannel(10);
+        System.out.println("CH:"+t.getChannel());
+        t.setChannel(20);
+        System.out.println("CH:"+t.getChannel());
+        t.gotoPrevChannel();
+        System.out.println("CH:"+t.getChannel());
+        t.gotoPrevChannel();
+        System.out.println("CH:"+t.getChannel());
     }
+}
+
+class SutdaCard22 {
+    final int num;
+    final boolean isKwang;
+    SutdaCard22() {
+        this(1, true);
+    }
+    SutdaCard22(int num, boolean isKwang) {
+        this.num = num;
+        this.isKwang = isKwang;
+    }
+    public String toString() {
+        return num + ( isKwang ? "K":"");
+    }
+}
+class Exercise7_14 {
+    public static void main(String args[]) {
+        SutdaCard card = new SutdaCard(1, true);
+    }
+}
+
+class Marine2 extends Unit { // 보병
+    void move(int x, int y) {
+        // 지정 위치로 이동
+    }
+    void stimPack() { /* 스팀팩을 사용한다.*/}
+}
+class Tank extends Unit { // 탱크
+    void move(int x, int y) {
+        // 지정 위치로 이동
+    }
+    void changeMode() { /* 공격모드를 변환한다. */}
+}
+class Dropship extends Unit { // 수송선
+    void move(int x, int y) {
+        // 지정 위치로 이동
+    }
+    void load() { /* 선택된 대상을 태운다.*/ }
+    void unload() { /* 선택된 대상을 내린다.*/ }
+}
+abstract class Unit{
+    int x, y; // 현재 위치
+    abstract void move(int x, int y);
+    void stop() { /* 현재 위치에 정지 */ }
 }
