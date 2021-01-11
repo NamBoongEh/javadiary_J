@@ -196,4 +196,26 @@ import static org.junit.Assert.*;
             };
             assertTrue(rankCheck(cArr).equals("STRAIGHT FLUSH"));
         }
+        @Test
+        public void straightTest11() {
+            Card[] cArr = {
+                    new Card(1,1),
+                    new Card(1,3),
+                    new Card(1,3),
+                    new Card(1,3),
+                    new Card(1,1),
+            };
+            assertTrue(rankCheck(cArr).equals("FLUSH"));
+        }
+        @Test
+        public void straightTest12() {
+            Card[] cArr = {
+                    new Card(1,1),
+                    new Card(1,3),
+                    new Card(1,6),
+                    new Card(1,3),
+                    new Card(1,1),
+            };
+            assertTrue(rankCheck(cArr).equals("FLUSH"));
+        }
 }
