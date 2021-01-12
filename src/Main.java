@@ -11,9 +11,9 @@ public class Main {
         };
 
         // 객체를 생성한다.
-        MainTestTest test = new MainTestTest();
+        MainTest test = new MainTest();
         //반환 값을 출력해주자.
-        System.out.println("정답은 \"" + test.rankCheck(arr) + "\"입니다.");
+        System.out.println("이번 판 결과는 \"" + test.rankCheck(arr) + "\"입니다.");
 
     }
 }

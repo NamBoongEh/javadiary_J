@@ -4,14 +4,14 @@ import java.util.Objects;
 
 import static org.junit.Assert.*;
 
-class Card{
+class Card2{
     int kind;
     int number;
-    Card(int kind, int number){
+    Card2(int kind, int number){
         this.kind = kind;
         this.number = number;
     }
-    Card(){
+    Card2(){
         this(1,1);
     }
 
@@ -20,7 +20,7 @@ class Card{
     }
 }
 public class MainTestTest {
-    public static String rankCheck(Card[] cArr) {
+    public static String rankCheck2(Card[] cArr) {
 //        int[] changeNum = new int[14];
 //        int[] changeKind = new int[4];
 //
@@ -238,7 +238,7 @@ public class MainTestTest {
                 new Card(2,4),
                 new Card(2,5),
         };
-        assertTrue(rankCheck(cArr).equals("STRAIGHT"));
+        assertTrue(rankCheck2(cArr).equals("STRAIGHT"));
     }
 
     @Test
@@ -250,6 +250,6 @@ public class MainTestTest {
                 new Card(2,7),
                 new Card(2,8),
         };
-        assertTrue(rankCheck(cArr).equals("STRAIGHT"));
+        assertTrue(rankCheck2(cArr).equals("STRAIGHT"));
     }
 }
