@@ -242,16 +242,10 @@ class Exercise11_6 {
     //이 부분은 평균과 비교한 값을 가지고, 안에 들어갈 수 있는지를 확인
     // set에 있는 학생들 데이터가 from~to 사이에 들어가는 애들이 몇 명인가?
     static int getGroupCount(TreeSet tset, int from, int to) {
+        Student333 st333 = new Student333("",0,0,from,from,from);
+        Student333 st3332 = new Student333("",0,0,to,to,to);
 
-        //tsest의 평균값이 들어가야한다. from과 to 사이에 들어가야한다.
-
-        int count = 0;
-
-        if(tset>=from &&               <to){
-            count++;
-        }
-
-        return count;
+        return tset.subSet(st333,st3332).size();
     }
 
     public static void main(String[] args) {
@@ -263,13 +257,7 @@ class Exercise11_6 {
                     Student333 st333 = (Student333) o1;
                     Student333 st3332 = (Student333) o2;
                     //평균값 구했는데 메서드 있다는걸 다 만들고나서 알았다^-^
-                    //평균값이 작은 순서로 적으니깐 - 붙여서 반대로 작성한다
-                    if(st333.getAverage()<st3332.getAverage()){
-                        return -1;
-                    }
-                    else {
-                        return 1;
-                    }
+                    return (int) (st333.getAverage()-st3332.getAverage());
                 }
                 //반대는 오류니깐 쉽게 해결
                 else{
@@ -289,5 +277,81 @@ class Exercise11_6 {
         System.out.println("[70~79] :"+getGroupCount(set,70,80));
         System.out.println("[80~89] :"+getGroupCount(set,80,90));
         System.out.println("[90~100] :"+getGroupCount(set,90,101));
+    }
+}
+
+
+class Student117 {
+    String name;
+    int ban;
+    int no;
+    int kor;
+    int eng;
+    int math;
+    Student117(String name, int ban, int no, int kor, int eng, int math) {
+        this.name = name;
+        this.ban = ban;
+        this.no = no;
+        this.kor = kor;
+        this.eng = eng;
+        this.math = math;
+    }
+    int getTotal() {
+        return kor+eng+math;
+    }
+    float getAverage() {
+        return (int)((getTotal()/ 3f)*10+0.5)/10f;
+    }
+    public String toString() {
+        return name
+                +","+ban
+                +","+no
+                +","+kor
+                +","+eng
+                +","+math
+                +","+getTotal()
+                +","+getAverage()
+                ;
+    }
+} // class Student117
+class BanNoAscending implements Comparator {
+    public int compare(Object o1, Object o2) {
+        // o1이랑 o2가 일단 형변환이 가능한지 확인
+        if(o1 instanceof Student117 && o2 instanceof Student117){
+            Student117 st117 = (Student117) o1;
+            Student117 st1172 = (Student117) o2;
+
+            //반을 비교한다. 만약 compareTo했는데 0이 나온다면?
+            // 이상하게 ban을하고, no를 2중 조건으로 설정이 안된다.
+            // 사용한 방법
+            // ban==ban && no==no
+            // compare && compare
+            if(st117.ban==st1172.ban){
+                //왜 값이 뭘 넣어도 바뀌지 않을까
+                return compare(st117.no, st1172.no);
+            }
+            //만약 다르다면 그냥 반을 비교하자
+            else{
+                return compare(st117.ban, st1172.ban);
+            }
+        }
+        //형변환이 안되면 오류
+        else{
+            return -1;
+        }
+    }
+}
+class Exercise11_7 {
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList();
+        list.add(new Student117("이자바 ",2,1,70,90,70));
+        list.add(new Student117("안자바 ",2,2,60,100,80));
+        list.add(new Student117("홍길동 ",1,3,100,100,100));
+        list.add(new Student117("남궁성 ",1,1,90,70,80));
+        list.add(new Student117("김자바 ",1,2,80,80,90));
+        Collections.sort(list, new BanNoAscending());
+        Iterator it = list.iterator();
+        while(it.hasNext())
+            System.out.println(it.next());
     }
 }
