@@ -539,7 +539,7 @@ class ClassTotalComparator implements Comparator {
 
             // ClassTotalComparator가 어디에 쓰였는지 음영처리 된 내용들을 따라가봤더니 밑에 calculateClassRank에서 반별 총점기준으로 내림차순 정렬에 쓰고있다.
             // 즉 이 클래스는 반별 총점을 기준으로 비교할 수 있게 구현해놔야한다.
-            return st1191.classRank>st1192.classRank ? 1 : -1;
+            return st1191.ban<= st1192.ban && st1191.total>=st1192.total ? -1 : 1;
         }
         // 안되면 묻따-1
         else{
@@ -555,37 +555,37 @@ class Exercise11_9 {
         int prevRank = -1;
         int prevTotal = -1;
         int length = list.size();
+        // 이전 문제와 count 다르게 바뀌었다. 합이 같을 경우에만 중복된 객체의 수가 몇 개인지 count를 셈
+        int count = 1;
+
         //1. list Student . 반복문을 이용해서 에 저장된 객체를 하나씩 읽는다
-        for(int i=0; i<length; i++){
+        for(int i=0; i<length; i++) {
             Student119 stu119 = (Student119) list.get(i);
 
-            //1.1 ,(ban prevBan ) 반이 달라지면 과 이 다르면
-            //이전 등수 와 이전 총점 을 초기화한다 (prevRank) (prevTotal) .
-            if(prevBan!= stu119.ban){
-                prevRank = -1;
-                prevTotal = -1;
-            }
-            //반이 같냐와 다르냐로 나뉜다.
-            //여기는 반이 같다는 전에에서 진행된다.
-            else{
-                //1.2 (total) (prevTotal) 총점 이 이전총점 과 같으면
-                //이전 등수 를 등수 로 한다 (prevRank) (classRank) .
-                if(prevTotal== stu119.total){
-                    stu119.classRank = prevRank;
-                }
-                //1.3 , 총점이 서로 다르면
-                //등수 의 값을 알맞게 계산해서 저장한다 (classRank) .
-                //이전에 동점자였다면 그 다음 등수는 동점자의 수를 고려해야 한다 , .
-                //( 실행결과 참고)
-                else{
-
-                    // 지금 이 부분이 뭐가 잘못된지 한눈에 보이지않는다.
-                    //일단 표시시
-                   stu119.classRank = prevRank;
-                }
+            // 반 다름
+            if(prevBan!=stu119.ban){
                 prevBan = stu119.ban;
-                prevRank = stu119.classRank;
-                prevTotal = stu119.total;
+                // 반 다르면 맨 위에 애는 무조건 1등이다.
+                prevRank = 1;
+                stu119.classRank = prevRank;
+            }
+            // 반 같음
+            else{
+                // 합 다름
+                if(prevTotal!= stu119.total){
+                    // 총합이 다른 객체가 나오면 count의 값을 전부 털어서 그간 움직이지않은 prevRank와 더해준다.
+                    stu119.classRank = count + prevRank;
+
+                    prevRank = stu119.classRank;
+                    prevTotal = stu119.total;
+                    //count 값 털었으니 초기화
+                    count = 1;
+                }
+                // 합 같음
+                else{
+                    stu119.classRank = prevRank;
+                    count++;
+                }
             }
         }
 
