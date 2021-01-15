@@ -327,7 +327,10 @@ class BanNoAscending implements Comparator {
             // ban==ban && no==no
             // compare && compare
             if(st117.ban==st1172.ban){
-                //왜 값이 뭘 넣어도 바뀌지 않을까
+                //왜 값이 뭘 넣어도 바뀌지 않을까 (2021.1.14생각)
+                // (2021.1.15 생각) 오버로딩 || 오버라이딩을 해보자고 생각함.
+                // 오버라이딩을 하다가 그냥 여기에서 나온 st117.no와 st1172.no의 int 값 자체를 오버로딩으로 보내버려서
+                // 1 또는 -1로 값을 받는게 빠르지않을까 생각함.
                 return compare(st117.no, st1172.no);
             }
             //만약 다르다면 그냥 반을 비교하자
@@ -336,6 +339,17 @@ class BanNoAscending implements Comparator {
             }
         }
         //형변환이 안되면 오류
+        else{
+            return -1;
+        }
+    }
+    // compare 오버로딩(이걸 위한 대상은 윗 compare메서드에서 st117.no와 st1172.no다)
+    public int compare(int o1, int o2){
+        // compare 비교하듯이 그냥 단순 int 값이니 대소 비교만 해주면 될 것 같다.
+        // 3항 연산자를 이요하면 더 빠른 값을 낼 수 있을것 같다.
+        if(o1>o2){
+            return 1;
+        }
         else{
             return -1;
         }
@@ -350,6 +364,274 @@ class Exercise11_7 {
         list.add(new Student117("남궁성 ",1,1,90,70,80));
         list.add(new Student117("김자바 ",1,2,80,80,90));
         Collections.sort(list, new BanNoAscending());
+        Iterator it = list.iterator();
+        while(it.hasNext())
+            System.out.println(it.next());
+    }
+}
+
+
+
+
+class Student118 implements Comparable {
+    String name;
+    int ban;
+    int no;
+    int kor;
+    int eng;
+    int math;
+    int total; // 총점
+    int schoolRank; // 전교등수
+    Student118(String name, int ban, int no, int kor, int eng, int math) {
+        this.name = name;
+        this.ban = ban;
+        this.no = no;
+        this.kor = kor;
+        this.eng = eng;
+        this.math = math;
+        total = kor+eng+math;
+    }
+    int getTotal() {
+        return total;
+    }
+    float getAverage() {
+        return (int)((getTotal()/ 3f)*10+0.5)/10f;
+    }
+    public int compareTo(Object o) {
+        // 그 어디에서도 compareTo를 사용하고있지않다.
+        // 그 뜻은 내가 아래 코드에서 사용해야한다는 뜻.
+
+        // 여기에서 내가 실수를했다!!!! 왜 정렬이 안되지ㅠㅠㅠ이러면서 고생했는데 Comparable로 하니깐 되었다.
+        // 사전에 형변환 검사도 당연히 하고, int로 위에 this값과 여기서 주어지는 매개변수의 필요한 요소만 뽑아서 비교하자.
+        if(o instanceof Student118){
+            int thisVal = this.total;
+            int anotherVal = ((Student118) o).total;
+            //삼항연산자를 쓰면 아주 조금이라도 빨라진다. 이참에 바꿔보자
+//            if(thisVal>anotherVal){
+//                return -1;
+//            }
+//            else{
+//                return 1;
+//            }
+            return thisVal>anotherVal ? -1 : 1;
+        }
+        else{
+            return -1;
+        }
+    }
+    public String toString() {
+        return name
+                +","+ban
+                +","+no
+                +","+kor
+                +","+eng
+                +","+math
+                +","+getTotal()
+                +","+getAverage()
+                +","+schoolRank // 새로추가
+                ;
+    }
+} // class Student118
+class Exercise11_8 {
+    public static void calculateSchoolRank(List list) {
+        Collections.sort(list); // list . 먼저 를 총점기준 내림차순으로 정렬한다
+        int prevRank = -1; // 이전 전교등수
+        int prevTotal = -1; // 이전 총점
+        int length = list.size();
+        //만약 동점이 나올 경우 list로 나오는 객체 수가 하나씩 나올때마다 증가하는 count로 등수를 바꿔주면 된다.
+        int count = 1;
+
+        // 1.   . 반복문을 이용해서 list에 저장된 Student객체를 하나씩 읽는다
+        for(int i=0; i<length; i++){
+            Student118 st118 = (Student118) list.get(i);
+
+            // 1.1 (total) (prevTotal) 총점 이 이전총점 과 같으면
+            //이전 등수 를 등수 로 한다 (prevRank) (schoolRank) .
+            if(st118.total==prevTotal){
+                st118.schoolRank = prevRank;
+            }
+            //1.2 , 총점이 서로 다르면
+            //등수 의 값을 알맞게 계산해서 저장한다 (schoolRank) .
+            //이전에 동점자 였다면 그 다음 등수는 동점자의 수를 고려해야 한다 , .
+            //( ) 실행결과 참고
+            else{
+                //동점자는 어떻게 해야할지 몰라서 count로 바꿔줬다. 어짜피 사람 수만큼의 1등부터 꼴등까지 있어야한다.
+                //그걸 동점자가 하나 가져가더라도 숫자가 그대로 증가하는 int 값이 하나 있으면 될거라고 생각했다.
+                st118.schoolRank = count;
+
+                prevTotal = st118.total;
+                prevRank = st118.schoolRank;
+            }
+            count++;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList();
+        list.add(new Student118("이자바 ",2,1,70,90,70));
+        list.add(new Student118("안자바 ",2,2,60,100,80));
+        list.add(new Student118("홍길동 ",1,3,100,100,100));
+        list.add(new Student118("남궁성 ",1,1,90,70,80));
+        list.add(new Student118("김자바 ",1,2,80,80,90));
+        calculateSchoolRank(list);
+        Iterator it = list.iterator();
+        while(it.hasNext())
+            System.out.println(it.next());
+    }
+}
+
+
+
+class Student119 implements Comparable {
+    String name;
+    int ban;
+    int no;
+    int kor;
+    int eng;
+    int math;
+    int total;
+    int schoolRank; // 전교등수
+    int classRank; // 반등수
+    Student119(String name, int ban, int no, int kor, int eng, int math) {
+        this.name = name;
+        this.ban = ban;
+        this.no = no;
+        this.kor = kor;
+        this.eng = eng;
+        this.math = math;
+        total = kor+eng+math;
+    }
+    int getTotal() {
+        return total;
+    }
+    float getAverage() {
+        return (int)((getTotal()/ 3f)*10+0.5)/10f;
+    }
+    public int compareTo(Object o) {
+        if(o instanceof Student119) {
+            Student119 tmp = (Student119)o;
+            return tmp.total - this.total;
+        } else {
+            return -1;
+        }
+    }
+    public String toString() {
+        return name
+                +","+ban
+                +","+no
+                +","+kor
+                +","+eng
+                +","+math
+                +","+getTotal()
+                +","+getAverage()
+                +","+schoolRank
+                +","+classRank // 새로추가
+                ;
+    }
+} // class Student119
+class ClassTotalComparator implements Comparator {
+    public int compare(Object o1, Object o2) {
+        //무조건 객체 비교할 땐, 묻지도 따지지도말고 형변환부터
+        if(o1 instanceof Student119 && o2 instanceof Student119){
+            Student119 st1191 = (Student119) o1;
+            Student119 st1192 = (Student119) o2;
+
+            // ClassTotalComparator가 어디에 쓰였는지 음영처리 된 내용들을 따라가봤더니 밑에 calculateClassRank에서 반별 총점기준으로 내림차순 정렬에 쓰고있다.
+            // 즉 이 클래스는 반별 총점을 기준으로 비교할 수 있게 구현해놔야한다.
+            return st1191.classRank>st1192.classRank ? 1 : -1;
+        }
+        // 안되면 묻따-1
+        else{
+            return -1;
+        }
+    }
+}
+class Exercise11_9 {
+    public static void calculateClassRank(List list) {
+// . 먼저 반별 총점기준 내림차순으로 정렬한다
+        Collections.sort(list, new ClassTotalComparator());
+        int prevBan = -1;
+        int prevRank = -1;
+        int prevTotal = -1;
+        int length = list.size();
+        //1. list Student . 반복문을 이용해서 에 저장된 객체를 하나씩 읽는다
+        for(int i=0; i<length; i++){
+            Student119 stu119 = (Student119) list.get(i);
+
+            //1.1 ,(ban prevBan ) 반이 달라지면 과 이 다르면
+            //이전 등수 와 이전 총점 을 초기화한다 (prevRank) (prevTotal) .
+            if(prevBan!= stu119.ban){
+                prevRank = -1;
+                prevTotal = -1;
+            }
+            //반이 같냐와 다르냐로 나뉜다.
+            //여기는 반이 같다는 전에에서 진행된다.
+            else{
+                //1.2 (total) (prevTotal) 총점 이 이전총점 과 같으면
+                //이전 등수 를 등수 로 한다 (prevRank) (classRank) .
+                if(prevTotal== stu119.total){
+                    stu119.classRank = prevRank;
+                }
+                //1.3 , 총점이 서로 다르면
+                //등수 의 값을 알맞게 계산해서 저장한다 (classRank) .
+                //이전에 동점자였다면 그 다음 등수는 동점자의 수를 고려해야 한다 , .
+                //( 실행결과 참고)
+                else{
+
+                    // 지금 이 부분이 뭐가 잘못된지 한눈에 보이지않는다.
+                    //일단 표시시
+                   stu119.classRank = prevRank;
+                }
+                prevBan = stu119.ban;
+                prevRank = stu119.classRank;
+                prevTotal = stu119.total;
+            }
+        }
+
+    } // public static void calculateClassRank(List list) {
+    public static void calculateSchoolRank(List list) {
+        Collections.sort(list, new ClassTotalComparator());
+        int prevRank = -1; // 이전 전교등수
+        int prevTotal = -1; // 이전 총점
+        int length = list.size();
+        //만약 동점이 나올 경우 list로 나오는 객체 수가 하나씩 나올때마다 증가하는 count로 등수를 바꿔주면 된다.
+        int count = 1;
+
+        // 1.   . 반복문을 이용해서 list에 저장된 Student객체를 하나씩 읽는다
+        for(int i=0; i<length; i++){
+            Student119 st118 = (Student119) list.get(i);
+
+            // 1.1 (total) (prevTotal) 총점 이 이전총점 과 같으면
+            //이전 등수 를 등수 로 한다 (prevRank) (schoolRank) .
+            if(st118.total==prevTotal){
+                st118.schoolRank = prevRank;
+            }
+            //1.2 , 총점이 서로 다르면
+            //등수 의 값을 알맞게 계산해서 저장한다 (schoolRank) .
+            //이전에 동점자 였다면 그 다음 등수는 동점자의 수를 고려해야 한다 , .
+            //( ) 실행결과 참고
+            else{
+                //동점자는 어떻게 해야할지 몰라서 count로 바꿔줬다. 어짜피 사람 수만큼의 1등부터 꼴등까지 있어야한다.
+                //그걸 동점자가 하나 가져가더라도 숫자가 그대로 증가하는 int 값이 하나 있으면 될거라고 생각했다.
+                st118.schoolRank = count;
+
+                prevTotal = st118.total;
+                prevRank = st118.schoolRank;
+            }
+            count++;
+        }
+
+    }
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList();
+        list.add(new Student119("이자바 ",2,1,70,90,70));
+        list.add(new Student119("안자바 ",2,2,60,100,80));
+        list.add(new Student119("홍길동 ",1,3,100,100,100));
+        list.add(new Student119("남궁성 ",1,1,90,70,80));
+        list.add(new Student119("김자바 ",1,2,80,80,90));
+        calculateSchoolRank(list);
+        calculateClassRank(list);
         Iterator it = list.iterator();
         while(it.hasNext())
             System.out.println(it.next());
