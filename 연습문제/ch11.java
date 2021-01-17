@@ -648,7 +648,10 @@ class Exercise11_10 {
         for(int i=0; set.size()<25; i++) {
             set.add((int)(Math.random()*30)+1+"");
         }
+        // 바꾸기 전에는 열에 하나의 숫자가 지정되면 같은 행은 점점 증가하는 모습을 보인다.
+        // 그리고 계속 테스트해도 같은 수가 반복된다
 
+        // set은 안되어서 list로 바꿔보았다.
         ArrayList list = new ArrayList(set);
         Collections.shuffle(list);
 
@@ -656,8 +659,8 @@ class Exercise11_10 {
         for(int i=0; i < board.length; i++) {
             for(int j=0; j < board[i].length; j++) {
                 board[i][j] = Integer.parseInt((String)it.next());
-                System.out.print((board[i][j] < 10 ? " " : " ")
-                        + board[i][j]);
+                //board에 넣지않고 integer 변환값을 바로 넣었는데 0만 나온다. 이유를 모르겠다.
+                System.out.print((board[i][j] < 10 ? " " : " ") + board[i][j]);
             }
             System.out.println();
         }
